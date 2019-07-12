@@ -2,6 +2,31 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// const axios=require('axios');
+axios.get('https://api.github.com/users/CarlaMarvin78')
+  .then(data=> { 
+    const cards=document.querySelector('.cards');
+    cards.appendChild(createCard(data.data));
+    // Stretch - Get followers
+    axios.get(data.data.followers_url)
+      .then(followers => {
+        followers.data.forEach(follower => {
+          axios.get(follower.url)
+            .then(follower_data=> { 
+              cards.appendChild(createCard(follower_data.data));
+            })
+            .catch(error=> {
+              console.log ('Error ', error);
+            })
+        })
+      })
+      .catch(error => {
+        console.log('Error ', error);
+      });
+  })
+  .catch(error=> {
+    console.log ('Error ', error);
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +49,26 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'];
+
+/* commented out for stretch goal */
+/*
+  followersArray.forEach(follower=>{
+    axios.get('https://api.github.com/users/'+ follower)
+.then(data=> { 
+  const cards=document.querySelector('.cards');
+  cards.appendChild(createCard(data.data));
+  // console.log ('success', data);
+  })
+  .catch(error=> {
+    console.log ('error', error);
+  })
+  })
+*/
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,11 +89,55 @@ const followersArray = [];
 </div>
 
 */
+function createCard(data) {
+  const card=document.createElement ('div');
+  const img=document.createElement ('img');
+  const cardInfo=document.createElement ('div');
+  const name=document.createElement ('h3');
+  const username=document.createElement ('p');
+  const location=document.createElement ('p');
+  const profile=document.createElement ('p');
+  const url=document.createElement ('a')
+  const followers=document.createElement ('p');
+  const following=document.createElement ('p');
+  const bio=document.createElement ('p');
+ 
+  card.appendChild (img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);  
+  profile.textContent='Profile:';
+  profile.appendChild(url);
 
+ card.classList.add('card');
+ cardInfo.classList.add('card-info');
+ name.classList.add('name');
+ username.classList.add('username');
+  
+ img.setAttribute('src',data.avatar_url);
+ name.textContent=data.name;
+ username.textContent=data.login;
+ location.textContent=`Location: ${data.location}`;
+ url.textContent=data.html_url;
+ url.setAttribute('href', data.html_url);
+ followers.textContent=`Followers: ${data.followers}`;
+ following.textContent=`Following: ${data.following}`;
+ bio.textContent=`Bio: ${data.bio}`;
+
+ return card;
+}
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
   justsml
   luishrd
   bigknell
-*/
+
+  */
+
+
