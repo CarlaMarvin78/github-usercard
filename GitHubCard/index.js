@@ -75,8 +75,25 @@ function createCard(data) {
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);  
+  profile.textContent='Profile:';
   profile.appendChild(url);
+
+ card.classList.add('card');
+ cardInfo.classList.add('card-info');
+ name.classList.add('name');
+ username.classList.add('username');
   
+ img.setAttribute('src',data.avatar_url);
+ name.textContent=data.name;
+ username.textContent=data.login;
+ location.textContent=`Location: ${data.location}`;
+ url.textContent=data.html_url;
+ url.setAttribute('href', data.html_url);
+ followers.textContent=`Followers: ${data.followers}`;
+ following.textContent=`Following: ${data.following}`;
+ bio.textContent=`Bio: ${data.bio}`;
+
+ return card;
 }
 /* List of LS Instructors Github username's: 
   tetondan
@@ -84,4 +101,7 @@ function createCard(data) {
   justsml
   luishrd
   bigknell
-*/
+
+  */
+
+
