@@ -4,14 +4,29 @@
 */
 // const axios=require('axios');
 axios.get('https://api.github.com/users/CarlaMarvin78')
-.then(data=> { 
-  const cards=document.querySelector('.cards');
-  cards.appendChild(createCard(data.data));
-  // console.log ('success', data);
+  .then(data=> { 
+    const cards=document.querySelector('.cards');
+    cards.appendChild(createCard(data.data));
+    // Stretch - Get followers
+    axios.get(data.data.followers_url)
+      .then(followers => {
+        followers.data.forEach(follower => {
+          axios.get(follower.url)
+            .then(follower_data=> { 
+              cards.appendChild(createCard(follower_data.data));
+            })
+            .catch(error=> {
+              console.log ('Error ', error);
+            })
+        })
+      })
+      .catch(error => {
+        console.log('Error ', error);
+      });
   })
   .catch(error=> {
-    console.log ('error', error);
-  })
+    console.log ('Error ', error);
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -40,6 +55,8 @@ const followersArray = ['tetondan',
   'luishrd',
   'bigknell'];
 
+/* commented out for stretch goal */
+/*
   followersArray.forEach(follower=>{
     axios.get('https://api.github.com/users/'+ follower)
 .then(data=> { 
@@ -51,6 +68,7 @@ const followersArray = ['tetondan',
     console.log ('error', error);
   })
   })
+*/
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
