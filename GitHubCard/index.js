@@ -2,6 +2,14 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// const axios=require('axios');
+axios.get('https://api.github.com/users/CarlaMarvin78')
+.then(data=> { 
+  console.log ('success', data);
+  })
+  .catch(error=> {
+    console.log ('error', error);
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -45,7 +53,31 @@ const followersArray = [];
 </div>
 
 */
-
+function createCard(data) {
+  const card=document.createElement ('div');
+  const img=document.createElement ('img');
+  const cardInfo=document.createElement ('div');
+  const name=document.createElement ('h3');
+  const username=document.createElement ('p');
+  const location=document.createElement ('p');
+  const profile=document.createElement ('p');
+  const url=document.createElement ('a')
+  const followers=document.createElement ('p');
+  const following=document.createElement ('p');
+  const bio=document.createElement ('p');
+ 
+  card.appendChild (img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);  
+  profile.appendChild(url);
+  
+}
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
